@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Forever Be Mine?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #ff9100, #ff007f, #7928ca);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            color: #ffffff;
+            position: relative;
+        }
+
+        /* Floating Hearts Container */
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .target-name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .sender-info {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            min-height: 120px;
+        }
+
+        button {
+            padding: 14px 0;
+            width: 200px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.1s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff007f;
+            color: white;
+            z-index: 2;
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.1s ease;
+            position: absolute;
+            top: 65px; 
+        }
+
+        /* Success Video Styling */
+        .video-container {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container">
+        <h1 id="mainQuestion">Will you forever be mine?</h1>
+        <h1 id="nameHeader" class="target-name">ALAYNA💝</h1>
+        <div id="senderDiv" class="sender-info">From ALI 💌</div>
+        
+        <div class="btn-container">
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 🏃‍♂️</button>
+        </div>
+
+        <div id="videoContainer" class="video-container">
+            <video id="successVideo" loop playsinline>
+                <source src="k.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        // Generate Floating Hearts Background
+        const heartsContainer = document.getElementById('heartsContainer');
+        const heartSymbols = ['❤️', '💖', '💝', '💕', '💘'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            // Randomize position, size, and animation speed
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // Between 4s and 7s
+            heart.style.opacity = Math.random() * 0.5 + 0.4;
+
+            heartsContainer.appendChild(heart);
+
+            // Clean up old elements
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        // Keep generating hearts continuously
+        setInterval(createHeart, 300);
+
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const padding = 50; 
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding * 2) + padding;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding * 2) + padding;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            const question = document.getElementById('mainQuestion');
+            const nameHeader = document.getElementById('nameHeader');
+            const senderDiv = document.getElementById('senderDiv');
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            const videoContainer = document.getElementById('videoContainer');
+            const video = document.getElementById('successVideo');
+            
+            // Success responses
+            question.innerHTML = "Yay! 🥰";
+            nameHeader.innerHTML = "I knew it! ❤️";
+            senderDiv.style.display = 'none';
+            
+            // Hide No button, modify Yes button
+            noBtn.style.display = 'none';
+            yesBtn.innerHTML = "Forever! ✨";
+            yesBtn.style.transform = "scale(1.1)";
+            yesBtn.onclick = null; 
+
+            // Show and play the video
+            videoContainer.style.display = 'block';
+            video.play().catch(error => {
+                console.log("Autoplay prevented or video not found:", error);
+            });
+        }
+    </script>
+
+</body>
+</html>
